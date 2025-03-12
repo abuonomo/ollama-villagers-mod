@@ -32,7 +32,8 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	
+    implementation 'io.github.ollama4j:ollama4j:1.0.93'
+	implementation 'com.google.code.gson:gson:2.12.1'
 }
 
 processResources {
