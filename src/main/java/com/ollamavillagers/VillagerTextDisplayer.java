@@ -4,19 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import javax.swing.text.html.parser.Entity;
-
-import org.slf4j.LoggerFactory;
-
-import com.ibm.icu.impl.locale.KeyTypeData.ValueType;
-
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3d;
 
 public class VillagerTextDisplayer {
     private class VillagerTextData
