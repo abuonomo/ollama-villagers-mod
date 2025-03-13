@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
+	id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 version = project.mod_version
@@ -32,9 +33,19 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    implementation 'io.github.ollama4j:ollama4j:1.0.93'
+    
+	implementation 'io.github.ollama4j:ollama4j:1.0.93'
+	include 'io.github.ollama4j:ollama4j:1.0.93'
 	implementation 'com.google.code.gson:gson:2.12.1'
+	include 'com.google.code.gson:gson:2.12.1'
 }
+
+// shadowJar {
+// 	dependencies {
+//         include dependency("io.github.ollama4j:ollama4j:1.0.93")
+//         include dependency("com.google.code.gson:gson:2.12.1")
+//     }
+// }
 
 processResources {
 	inputs.property "version", project.version
@@ -82,4 +93,17 @@ publishing {
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
 	}
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    exclude("META-INF")
+}
+
+remapJar {
+    // wait until the shadowJar is done
+    dependsOn(shadowJar)
+    mustRunAfter(shadowJar)
+    // Set the input jar for the task. Here use the shadow Jar that include the .class of the transitive dependency
+    inputFile = file(shadowJar.archivePath)
 }

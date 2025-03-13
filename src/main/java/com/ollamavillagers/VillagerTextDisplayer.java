@@ -12,7 +12,8 @@ public class VillagerTextDisplayer {
     private class VillagerTextData
     {
         public Text originalName;
-        public int lifetime = -1;
+        public long elapsed = 0;
+        public String currentMessage = null;
         public LinkedList<String> messageQueue = new LinkedList<>();
     }
 
@@ -59,6 +60,10 @@ public class VillagerTextDisplayer {
         }
         if(!sequence.equals("")) splitString.add(sequence);
 
+        if(!data.messageQueue.isEmpty()) {
+            // Add an empty message between different messages.
+            data.messageQueue.addLast("");
+        }
         for(String s : splitString)
             data.messageQueue.addLast(s);
     }
@@ -69,21 +74,33 @@ public class VillagerTextDisplayer {
         for (Map.Entry<VillagerEntity, VillagerTextData> kvp : vdata.entrySet()) {
             VillagerEntity villager = kvp.getKey();
             VillagerTextData data = kvp.getValue();
-            data.lifetime--;
-            if(data.lifetime < 0)
+            data.elapsed++;
+            long maxLife = 0;
+            if(data.currentMessage != null)
+                maxLife = ConfigManager.config.textHoldTicks
+                            + (int)(data.currentMessage.length() / ConfigManager.config.textCharsPerTick)
+                            + 1;
+            if(data.currentMessage == null || data.elapsed > maxLife)
             {
-                if(data.messageQueue.isEmpty())
+                if(!data.messageQueue.isEmpty())
                 {
+                    data.elapsed = 0;
+                    data.currentMessage = data.messageQueue.removeFirst();
+                    villager.setCustomNameVisible(true);
+                }
+                else if(data.currentMessage != null)
+                {
+                    data.currentMessage = null;
                     villager.setCustomName(kvp.getValue().originalName);
                     villager.setCustomNameVisible(false);
                     trash.add(villager);
                 }
-                else
-                {
-                    data.lifetime = ConfigManager.config.textLifetimeTicks;
-                    villager.setCustomName(Text.of(data.messageQueue.removeFirst()));
-                    villager.setCustomNameVisible(true);
-                }
+            }
+
+            if(data.currentMessage != null) {
+                int ichar = (int)(data.elapsed * ConfigManager.config.textCharsPerTick);
+                String m = data.currentMessage.substring(0, Math.min(data.currentMessage.length(), ichar));
+                villager.setCustomName(Text.of(m));
             }
         }        
 

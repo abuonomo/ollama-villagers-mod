@@ -22,6 +22,7 @@ public class ChatInstance {
         this.displayer = displayer;
 
         ollamaAPI = new OllamaAPI(ConfigManager.config.host);
+        ollamaAPI.setRequestTimeoutSeconds(ConfigManager.config.requestTimeoutSeconds);
         builder = OllamaChatRequestBuilder.getInstance(ConfigManager.config.model);
         this.prompt = prompt;
         this.villager = villager;

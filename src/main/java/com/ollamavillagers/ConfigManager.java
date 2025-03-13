@@ -24,7 +24,9 @@ public class ConfigManager {
         public String host = "http://localhost:11434/";
         public String model = "mistral";
         public int maxTextChars = 40;
-        public int textLifetimeTicks = 40;
+        public int textHoldTicks = 40;
+        public double textCharsPerTick = 1.0;
+        public long requestTimeoutSeconds = 60;
     }
 
     public static double totalWeights = 1.0;
