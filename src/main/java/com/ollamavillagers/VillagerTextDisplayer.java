@@ -7,6 +7,7 @@ import java.util.Map;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
 
 public class VillagerTextDisplayer {
     private class VillagerTextData
@@ -87,12 +88,14 @@ public class VillagerTextDisplayer {
                     data.elapsed = 0;
                     data.currentMessage = data.messageQueue.removeFirst();
                     villager.setCustomNameVisible(true);
+                    villager.setAiDisabled(true);
                 }
                 else if(data.currentMessage != null)
                 {
                     data.currentMessage = null;
                     villager.setCustomName(kvp.getValue().originalName);
                     villager.setCustomNameVisible(false);
+                    villager.setAiDisabled(false);
                     trash.add(villager);
                 }
             }
