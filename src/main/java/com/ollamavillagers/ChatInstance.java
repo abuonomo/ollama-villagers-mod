@@ -23,7 +23,7 @@ public class ChatInstance {
 
         ollamaAPI = new OllamaAPI(ConfigManager.config.host);
         ollamaAPI.setRequestTimeoutSeconds(ConfigManager.config.requestTimeoutSeconds);
-        builder = OllamaChatRequestBuilder.getInstance(ConfigManager.config.model);
+        builder = OllamaChatRequestBuilder.getInstance(ConfigManager.config.model).withStreaming();
         this.prompt = prompt;
         this.villager = villager;
     }
@@ -34,15 +34,18 @@ public class ChatInstance {
             requestModel = builder
                 .withMessage(OllamaChatMessageRole.SYSTEM, prompt)
                 .withMessage(OllamaChatMessageRole.USER, chatInput)
+                .withStreaming()
                 .build();
         } else {
-            requestModel = builder.withMessages(chatResult.getChatHistory()).withMessage(OllamaChatMessageRole.USER, chatInput).build();
+            requestModel = builder.withMessages(chatResult.getChatHistory()).withMessage(OllamaChatMessageRole.USER, chatInput).withStreaming().build();
         }
 
         new Thread(new Runnable() {
             @Override public void run() {
                 try {
+                    OllamaVillagers.LOGGER.info("Chatting... ollamaAPI is " + ollamaAPI.toString());
                     OllamaChatResult result = ollamaAPI.chat(requestModel);
+                    OllamaVillagers.LOGGER.info("Chat sent.");
                     displayer.display(villager, world, result.getChatHistory().get(result.getChatHistory().size() - 1).getContent());
                     setResult(result);
                 } catch (Exception e) {
