@@ -23,6 +23,7 @@ public class ConfigManager {
         public Personality[] personalities = { new Personality() };
         public String host = "http://localhost:11434/";
         public String model = "mistral";
+        public String keepAlive = "30m";
         public int maxTextChars = 40;
         public int textHoldTicks = 40;
         public double textCharsPerTick = 1.0;
