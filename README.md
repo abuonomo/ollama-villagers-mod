@@ -1,7 +1,7 @@
 # Ollama Villagers
 Ever wanted to get your villagers to talk with you? Here's a mod for that! This is a **SERVER ONLY** mod, it doesn't require clients to have the mod. It has not been tested in single player, but it should work too.
 ## Installation Steps
-1. Install [https://ollama.com/](Ollama) on the server and download a lightweight model that will run decently fast on your server. Keep the name of the model in mind.
+1. Install [Ollama](https://ollama.com/) on the server and download a lightweight model that will run decently fast on your server. Keep the name of the model in mind.
 2. Install the mod in the `mods` folder. Currently, only Fabric 1.21 is supported.
 3. Make sure you also have the Fabric API installed in the `mods` folder.
 4. Run the server. When it is loaded, shut it down.
