@@ -35,38 +35,11 @@ public class VillagerTextDisplayer {
             vdata.put(villager, data);
         } else { data = vdata.get(villager); }
 
-        LinkedList<String> splitString = new LinkedList<>();
-        String[] words = text.split(" ");
-        int nChars = 0;
-        String sequence = "";
-        for(int i = 0; i < words.length; ++i)
-        {
-            if(nChars == 0)
-            {
-                nChars += words[i].length();
-                sequence += words[i];
-                continue;
-            }
-
-            if(nChars + words[i].length() + 1 > ConfigManager.config.maxTextChars)
-            {
-                splitString.add(sequence);
-                sequence = words[i];
-                nChars = words[i].length();
-                continue;
-            }
-
-            sequence += " " + words[i];
-            nChars += words[i].length() + 1;
+        if(data.currentMessage != null && data.messageQueue.isEmpty() && (data.currentMessage + text).length() <= ConfigManager.config.maxTextChars) {
+            data.currentMessage += text;
+        } else {
+            data.messageQueue.addLast(text);
         }
-        if(!sequence.equals("")) splitString.add(sequence);
-
-        if(!data.messageQueue.isEmpty()) {
-            // Add an empty message between different messages.
-            data.messageQueue.addLast("");
-        }
-        for(String s : splitString)
-            data.messageQueue.addLast(s);
     }
 
     public synchronized void tick()
@@ -87,6 +60,8 @@ public class VillagerTextDisplayer {
                 {
                     data.elapsed = 0;
                     data.currentMessage = data.messageQueue.removeFirst();
+                    while(data.currentMessage.length() <= ConfigManager.config.maxTextChars && !data.messageQueue.isEmpty())
+                        data.currentMessage += data.messageQueue.removeFirst();
                     villager.setCustomNameVisible(true);
                     villager.setAiDisabled(true);
                 }
@@ -103,7 +78,7 @@ public class VillagerTextDisplayer {
             if(data.currentMessage != null) {
                 int ichar = (int)(data.elapsed * ConfigManager.config.textCharsPerTick);
                 String m = data.currentMessage.substring(0, Math.min(data.currentMessage.length(), ichar));
-                villager.setCustomName(Text.of(m));
+                villager.setCustomName(Text.of(m.trim()));
             }
         }        
 
