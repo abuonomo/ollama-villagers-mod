@@ -83,6 +83,8 @@ public class OllamaStream {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setDoOutput(true);
+            conn.setConnectTimeout(1000 * (int)ConfigManager.config.requestTimeoutSeconds);
+            conn.setReadTimeout(1000 * (int)ConfigManager.config.requestTimeoutSeconds);
             System.out.println(GSON.toJson(req));
             conn.getOutputStream().write(GSON.toJson(req).getBytes("UTF-8"));
             conn.connect();
