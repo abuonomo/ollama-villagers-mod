@@ -30,7 +30,7 @@ This mod features "personalities". In the config file, you can add as many perso
 You can not choose which villager has which personality, but as long as you don't modify the personalities, a given villager will always have the same personality, even after a server restart.
 ## Known shortcomings
 - Conversation histories are lost after a server restart.
-- Error handling is very poor (this mod was made in an afternoon) and may lead to server crashes (I have not experienced any yet).
+- Error handling is very poor (this mod was made in two afternoons) and may lead to server crashes (I have not experienced any yet).
 - The text display might behave poorly if the Ollama server is very slow.
 - Talking to a villager that is already talking will lead to its conversation history being ordered in the wrong way.
 - Villagers are not aware of their environment, unless told by the player (maybe a cool feature to add later).
