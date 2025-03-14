@@ -34,3 +34,4 @@ You can not choose which villager has which personality, but as long as you don'
 - The text display might behave poorly if the Ollama server is very slow.
 - Talking to a villager that is already talking will lead to its conversation history being ordered in the wrong way.
 - Villagers are not aware of their environment, unless told by the player (maybe a cool feature to add later).
+- If the server is shut down or crashes while a villager is talking, it will keep the last message it said as its nametag until a new nametag is applied or it is killed, replacing its custom nametag (if it had one).
