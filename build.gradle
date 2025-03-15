@@ -44,6 +44,16 @@ dependencies {
     include implementation ('com.fasterxml.jackson.module:jackson-module-kotlin:2.18.3')
     include implementation ('com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3')
     include implementation ('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.18.3')
+
+    // OpenAI API client for TTS
+    include implementation('com.theokanning.openai-gpt3-java:service:0.18.2')
+    include implementation('com.squareup.okhttp3:okhttp:4.12.0')
+    include implementation('com.squareup.okio:okio:3.6.0')
+    include implementation('com.squareup.okio:okio-jvm:3.6.0')
+
+    // Kotlin standard library (required for OkHttp)
+    include implementation('org.jetbrains.kotlin:kotlin-stdlib:1.9.22')
+    include implementation('org.jetbrains.kotlin:kotlin-stdlib-common:1.9.22')
 }
 
 // shadowJar {

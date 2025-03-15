@@ -19,6 +19,17 @@ public class ConfigManager {
         public double weight = 1.0;
     }
 
+    public static class TTSConfig {
+        public boolean enabled = false;
+        public String apiKey = "";
+        public String voice = "alloy"; // OpenAI voice options: alloy, echo, fable, onyx, nova, shimmer
+        public float volume = 1.0f;
+        public int maxCacheItems = 100; // How many audio clips to cache
+        public boolean notifierEnabled = true; // Enable UDP notifications
+        public int notifierPort = 25566; // Port for UDP notifications
+        public String cacheDir = "ollama-villagers/tts-cache"; // Directory for cached audio files
+    }
+
     public static class Config {
         public Personality[] personalities = { new Personality() };
         public String host = "http://localhost:11434/";
@@ -28,6 +39,7 @@ public class ConfigManager {
         public int textHoldTicks = 40;
         public double textCharsPerTick = 1.0;
         public long requestTimeoutSeconds = 60;
+        public TTSConfig tts = new TTSConfig();
     }
 
     public static double totalWeights = 1.0;
