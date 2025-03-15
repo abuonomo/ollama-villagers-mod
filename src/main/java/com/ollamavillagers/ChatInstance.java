@@ -16,6 +16,7 @@ public class ChatInstance {
         this.displayer = displayer;
         this.prompt = prompt;
         this.villager = villager;
+        this.world = world;
         messages.add(new OllamaStream.Message(OllamaStream.Message.Role.SYSTEM, prompt));
     }
 
@@ -27,13 +28,20 @@ public class ChatInstance {
         new Thread(new Runnable() {
             @Override public void run() {
                 try {
-                    String message = "";
+                    String completedMessage = "";
                     while(!stream.isOver()) {
                         String token = stream.getNext().content;
-                        message += token;
+                        completedMessage += token;
                         displayer.display(villager, world, token);
                     }
-                    messages.add(new OllamaStream.Message(OllamaStream.Message.Role.ASSISTANT, message));
+
+                    // Once we have the complete message, trigger TTS generation immediately
+                    if (ConfigManager.config.tts.enabled && !completedMessage.trim().isEmpty()) {
+                        // Notify the displayer that we have a complete message
+                        displayer.completeMessage(villager, world, completedMessage.trim());
+                    }
+
+                    messages.add(new OllamaStream.Message(OllamaStream.Message.Role.ASSISTANT, completedMessage));
                 } catch (Exception e) {
                     OllamaVillagers.LOGGER.error("Failed to get a chat message from Ollama!", e);
                 }

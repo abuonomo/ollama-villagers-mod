@@ -22,7 +22,9 @@ public class ConfigManager {
     public static class TTSConfig {
         public boolean enabled = false;
         public String apiKey = "";
-        public String voice = "alloy"; // OpenAI voice options: alloy, echo, fable, onyx, nova, shimmer
+        public String endpoint = "http://localhost:8880/v1/audio/speech"; // Default to Kokoro-FastAPI
+        public String model = "kokoro"; // Default to Kokoro model
+        public String voice = "bm_lewis"; // OpenAI voices: alloy, echo, fable, onyx, nova, shimmer
         public float volume = 1.0f;
         public int maxCacheItems = 100; // How many audio clips to cache
         public boolean notifierEnabled = true; // Enable UDP notifications
